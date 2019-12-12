@@ -3,6 +3,11 @@
 
 <head>
     <title>canvas数字时间表</title>
+    <style>
+    .test{
+        width:300px
+    }
+    </style>
 </head>
 
 <body>
@@ -129,8 +134,9 @@
                 w = w ? w : 200;
                 h = h ? h : 40;
             } else {
-                $el.width
-                w = w ? w : 200;
+                var offsetWidth=$el.offsetWidth;
+                console.log(offsetWidth)
+                w = w ?w :offsetWidth?offsetWidth:200;
             }
             var style="";
             if (boxShadow) {
@@ -138,7 +144,7 @@
             }
 
             var scale_w = w / width;
-            var scale_h = h / height;
+            var scale_h = h?h / height:scale_w;
             style += "transform-origin: top left;transform: scale(" + scale_w + "," + scale_h + ");"
             $canvas.style = style;
             if ($canvas.isConnected) {
@@ -235,7 +241,7 @@
         win.MyTimeInit = init;
     })(window)
     var $el = document.getElementsByClassName('test');
-    MyTimeInit()
+    MyTimeInit({$el:$el[0]})
 </script>
 
 </html>
