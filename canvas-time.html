@@ -58,8 +58,8 @@
         function Point() {   //数字上的点对象
             this.x = 0;  //当前 x轴
             this.y = 0;  //当前 y轴
-            this.gx = 0; //当前 x轴 加速度
-            this.gy = 0; //当前 y轴 加速度
+            this.gx = 0; //当前 x轴 速度
+            this.gy = 0; //当前 y轴 速度
             this.drop = false;  //是否为脱离下落状态
             this.visible = false; //是否为显示状态
             this.color = "";  //当前颜色
@@ -166,7 +166,7 @@
             }
             points.forEach(function (p) {
                 if (p.visible) {
-                    p.update(16 / 70)
+                    p.update(17/60)
                     p.draw();
                 }
             });
