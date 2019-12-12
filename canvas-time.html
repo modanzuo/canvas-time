@@ -31,19 +31,18 @@
         var distance = 22; //数字内间距
         var number_distance = 20; //数字间距
         var number_data = {  //数据模型
-            "0": `01110-10001-10001-10001-10001-10001-01110`, //0
-            "1": `00100-11100-00100-00100-00100-00100-11111`, //1
-            "2": `11110-00001-00001-01110-11000-10000-11111`, //2
-            "3": `11110-00001-00001-11110-00001-00001-11110`, //3
-            "4": `00010-00110-01010-10010-11111-00010-00010`, //4
-            "5": `11111-10000-10000-11110-00001-00001-11110`, //5
-            "6": `01110-10001-10000-11110-10001-10001-01110`, //6
-            "7": `11111-10001-00010-00100-00100-00100-00100`, //7
-            "8": `01110-10001-10001-01110-10001-10001-01110`, //8
-            "9": `01110-10001-10001-01111-00001-10001-01110`, //9
-            ":": `00000-00000-00100-00000-00100-00000-00000` //:     
+            "0": "01110-10001-10001-10001-10001-10001-01110", //0
+            "1": "00100-11100-00100-00100-00100-00100-11111", //1
+            "2": "01110-10001-00001-00010-00100-01000-11111", //2
+            "3": "01110-10001-00001-01110-00001-10001-01110", //3
+            "4": "00010-00110-01010-10010-11111-00010-00010", //4
+            "5": "11111-10000-10000-11110-00001-00001-11110", //5
+            "6": "01110-10001-10000-11110-10001-10001-01110", //6
+            "7": "11111-10001-00010-00100-00100-00100-00100", //7
+            "8": "01110-10001-10001-01110-10001-10001-01110", //8
+            "9": "01110-10001-10001-01111-00001-10001-01110", //9
+            ":": "00000-00000-00100-00000-00100-00000-00000" //:     
         };
-        var number_frame = 5;
         var show_time = 0 //当前显示时间
         var now_time = 0  //当前执行时间
         var points = []; //点数据集
@@ -154,16 +153,14 @@
             for (var i = 0; i < point_number; i++) {
                 points.push(new Point);
             }
-            show_time = new Date();
             now_time = new Date();
-            setTime(now_time)
+            setTimeString(now_time)
             heart();
         }
         function heart() {
             ctx.clearRect(0, 0, width, height);
             if (now_time - show_time >= 1000) {
-                setTime(now_time);
-                show_time = now_time;
+                setTimeString(now_time);
             }
             points.forEach(function (p) {
                 if (p.visible) {
@@ -174,14 +171,15 @@
             now_time = new Date();
             MyAnimation(heart)
         }
-        function setTime(time) {
+        function setTimeString(time) {
+            show_time = time;
             var h = time.getHours() + "", //时
                 m = time.getMinutes() + "", //分
                 s = time.getSeconds() + ""; //秒
             h = h.length === 1 ? '0' + h : h;
             m = m.length === 1 ? '0' + m : m;
             s = s.length === 1 ? '0' + s : s;
-            var now_date = h + ":" + m + ":" + s;
+            var now_date = [h, m, s].join(":");
             var color;
             var i = 0;
             if (last_date) {
@@ -193,8 +191,12 @@
                 }
             }
             last_date = now_date;
-            var start_x = (width - (distance * number_frame * 8 + 7 * number_distance)) / 2; //计算时间开始x轴
-            var start_y = (height - distance * 6) / 2;  //计算时间的开始y轴
+            var now_date_length = now_date.length;
+            var number_string = number_data[':'].split("-");
+            var number_string_length = number_string.length;
+            var number_frame = number_string[0].length;
+            var start_x = (width - (distance * number_frame * now_date_length + (now_date_length - 1) * number_distance)) / 2; //计算时间开始x轴
+            var start_y = (height - distance * number_string_length) / 2;  //计算时间的开始y轴
 
             for (; i < now_date.length; i++) {
                 var char_x = start_x + i * (number_distance + number_frame * distance);
